@@ -13,3 +13,6 @@ bluepy
 pyOpenBCI
 pyqt5
 mne==0.22.0
+playsound
+vext
+vext.gi
