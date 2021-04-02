@@ -161,7 +161,7 @@ while True:
             # print(block)
             cat = conditions[block-1].split('_')[0]
             for imgName in stimuli[conditions[block-1]]:
-                clear_output(wait=True)
+                # clear_output(wait=True)
                 drawTrial(f"{folder}/{cat}/{imgName}", f"{conditions[block-1]}_{trial}", stim_time)   # drawTrail(fileName, stimTime, thinkingTime, fixationTime)
                 trial += 1
             if round+1 < len(seq):  # do not draw fixation on last block

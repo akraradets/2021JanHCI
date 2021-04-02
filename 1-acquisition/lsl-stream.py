@@ -9,7 +9,7 @@ SCALE_FACTOR_AUX = 0.002 / (2**4)
 
 print("Creating LSL stream for EEG. \nName: OpenBCIEEG\nID: OpenBCItestEEG\n")
 
-info_eeg = StreamInfo('OpenBCIEEG', 'EEG', 16, 125, 'float32', 'OpenBCItestEEG')
+info_eeg = StreamInfo('OpenBCIEEG', 'EEG', 8, 250, 'float32', 'OpenBCItestEEG')
 
 print("Creating LSL stream for AUX. \nName: OpenBCIAUX\nID: OpenBCItestEEG\n")
 
@@ -22,7 +22,7 @@ def lsl_streamers(sample):
     outlet_eeg.push_sample(np.array(sample.channels_data)*SCALE_FACTOR_EEG)
     outlet_aux.push_sample(np.array(sample.aux_data)*SCALE_FACTOR_AUX)
 
-board = OpenBCICyton(port='/dev/ttyUSB0',daisy=True)
-#board = OpenBCICyton(port='/dev/ttyUSB1')
+# board = OpenBCICyton(port='/dev/ttyUSB0')#,daisy=True)
+board = OpenBCICyton(port='/dev/ttyUSB1')
 
 board.start_stream(lsl_streamers)

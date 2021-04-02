@@ -6,11 +6,19 @@ from time import time, strftime, gmtime
 from optparse import OptionParser
 from pylsl import StreamInlet, resolve_byprop
 from sklearn.linear_model import LinearRegression
+import sys
 
-default_fname = ("data/chunk_size_exp/data_%s.csv" % strftime("%Y-%m-%d-%H.%M.%S", gmtime()))
+if(len(sys.argv) < 3):
+    raise ValueError(f"Must provide participant_id and stimuli_type")
+
+participant_id = sys.argv[1]
+stimuli_type = sys.argv[2]
+
+# default_fname = ("data/data_%s.csv" % strftime("%Y-%m-%d-%H.%M.%S", gmtime()))
+default_fname = f"data/{participant_id}_{stimuli_type}_{strftime('%Y-%m-%d-%H.%M.%S', gmtime())}"
 parser = OptionParser()
 parser.add_option("-d", "--duration",
-                  dest="duration", type='int', default=10000,
+                  dest="duration", type='int', default=1000000,
                   help="duration of the recording in seconds.")
 parser.add_option("-f", "--filename",
                   dest="filename", type='str', default=default_fname,
@@ -67,7 +75,6 @@ while (time() - t_init) < options.duration:
         if timestamp:
             res.append(data)
             timestamps.extend(timestamp)
-
         if inlet_marker:
 
             marker, timestamp = inlet_marker.pull_sample(timeout=0.0)
@@ -84,11 +91,11 @@ res = np.concatenate(res, axis=0)
 timestamps = np.array(timestamps)
 
 if dejitter:
-   y = timestamps
-   X = np.atleast_2d(np.arange(0, len(y))).T
-   lr = LinearRegression()
-   lr.fit(X, y)
-   timestamps = lr.predict(X)
+    y = timestamps
+    X = np.atleast_2d(np.arange(0, len(y))).T
+    lr = LinearRegression()
+    lr.fit(X, y)
+    timestamps = lr.predict(X)
 
 res = np.c_[timestamps, res]
 data = pd.DataFrame(data=res, columns=['timestamps'] + ch_names)
