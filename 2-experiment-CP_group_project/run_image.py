@@ -23,7 +23,7 @@ if(order_index not in range(10)):
     raise ValueError(f"Must give order_index number in rage of 0 - 9")
 
 folder = 'images/'
-screen_size = [1920, 1080]
+screen_size = [1920, 1000]
 # screen_size = [1366, 768]
 
 
