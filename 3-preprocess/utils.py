@@ -1,5 +1,21 @@
 import pandas as pd
 import numpy as np
+import mne
+
+def dataframe_to_raw(dataframe, sfreq):
+    ch_names = list(dataframe.columns)
+    ch_types = ['eeg'] * (len(dataframe.columns) - 1) + ['stim']
+    ten_twenty_montage = mne.channels.make_standard_montage('standard_1020')
+
+    dataframe = dataframe.T  #mne looks at the tranpose() format
+    dataframe[:-1] *= 1e-6  #convert from uVolts to Volts (mne assumes Volts data)
+
+    info = mne.create_info(ch_names=ch_names, ch_types=ch_types, sfreq=sfreq)
+
+    raw = mne.io.RawArray(dataframe, info)
+    raw.set_montage(ten_twenty_montage)
+    # raw.plot()
+    return raw
 
 def get_section_from_marker(dataframe, start_marker:str, last_marker:str):
     if(len(start_marker.split('_')) != 3):
