@@ -1,6 +1,22 @@
 import pandas as pd
 import numpy as np
 import mne
+import pickle 
+import os
+
+def clear_cache():
+    os.remove("cache/EEG_audio.pickle")
+    os.remove("cache/EEG_image.pickle")
+
+
+def save(data, filename):
+    with open(f'cache/{filename}.pickle', 'wb') as handle:
+        pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def load(filename):
+    with open(f'cache/{filename}.pickle', 'rb') as handle:
+        data = pickle.load(handle)
+    return data
 
 def dataframe_to_raw(dataframe, sfreq):
     ch_names = list(dataframe.columns)

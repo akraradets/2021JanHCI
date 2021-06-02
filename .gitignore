@@ -130,3 +130,4 @@ dmypy.json
 .vscode
 3-preprocess/data_extract_raw/image_X.pickle
 3-preprocess/data_extract_raw/audio_X.pickle
+4-redo-process/cache
