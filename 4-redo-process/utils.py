@@ -25,6 +25,7 @@ def dataframe_to_raw(dataframe, sfreq):
 
     dataframe = dataframe.T  #mne looks at the tranpose() format
     dataframe[:-1] *= 1e-6  #convert from uVolts to Volts (mne assumes Volts data)
+    # dataframe[:-1] *= 1e3  #convert from uVolts to Volts (mne assumes Volts data)
 
     info = mne.create_info(ch_names=ch_names, ch_types=ch_types, sfreq=sfreq, verbose=False)
 
