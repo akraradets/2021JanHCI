@@ -18,6 +18,20 @@ def load(filename):
         data = pickle.load(handle)
     return data
 
+def marker_converter(pandasRaw):
+    marker_idx = list(pandasRaw['Marker'].unique())
+    new_marker = []
+    for data in pandasRaw['Marker']:
+        if(data == '0' or data == 0):
+            i = 0
+        else:
+            i = marker_idx.index(data)
+        new_marker.append(i)
+    set(new_marker)
+    pandasRaw['Marker'] = new_marker
+    pandasRaw = pandasRaw.drop(columns='timestamps')
+    return pandasRaw,marker_idx
+
 def dataframe_to_raw(dataframe, sfreq):
     ch_names = list(dataframe.columns)
     ch_types = ['eeg'] * (len(dataframe.columns) - 1) + ['stim']
