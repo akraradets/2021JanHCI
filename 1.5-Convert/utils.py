@@ -18,19 +18,17 @@ def load(filename):
         data = pickle.load(handle)
     return data
 
-def marker_converter(pandasRaw):
-    marker_idx = list(pandasRaw['Marker'].unique())
+def marker_converter(pd_raw,marker_names):
     new_marker = []
-    for data in pandasRaw['Marker']:
+    for data in pd_raw['Marker']:
         if(data == '0' or data == 0):
             i = 0
         else:
-            i = marker_idx.index(data)
+            i = marker_names.index(data)
         new_marker.append(i)
-    set(new_marker)
-    pandasRaw['Marker'] = new_marker
-    pandasRaw = pandasRaw.drop(columns='timestamps')
-    return pandasRaw,marker_idx
+    pd_raw['Marker'] = new_marker
+    pd_raw = pd_raw.drop(columns='timestamps')
+    return pd_raw
 
 def dataframe_to_raw(dataframe, sfreq):
     ch_names = list(dataframe.columns)
