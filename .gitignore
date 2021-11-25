@@ -133,3 +133,5 @@ dmypy.json
 4-redo-process/cache
 5-sourceLocalize/cache
 5-sourceLocalize/data
+_teach/A15S02-EEG-offline-collection-data.json
+_teach/fun.ipynb
