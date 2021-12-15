@@ -1,1 +1,1 @@
-# 2021JanHCI
+# EEG_Personality
